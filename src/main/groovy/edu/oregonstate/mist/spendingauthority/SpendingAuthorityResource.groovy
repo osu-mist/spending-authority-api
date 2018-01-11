@@ -2,6 +2,7 @@ package edu.oregonstate.mist.spendingauthority
 
 import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.api.Resource
+import edu.oregonstate.mist.api.jsonapi.ResultObject
 import edu.oregonstate.mist.spendingauthority.db.SpendingAuthorityDAOWrapper
 import groovy.transform.TypeChecked
 
@@ -27,6 +28,12 @@ class SpendingAuthorityResource extends Resource {
     @Timed
     @GET
     Response getSpendingAuthority(@QueryParam('onid') String onid) {
+        ResultObject resultObject = spendingAuthorityDAOWrapper.getSpendingLimits(onid)
+
+        if (!resultObject) {
+            return notFound().build()
+        }
+
         ok(spendingAuthorityDAOWrapper.getSpendingLimits(onid)).build()
     }
 }

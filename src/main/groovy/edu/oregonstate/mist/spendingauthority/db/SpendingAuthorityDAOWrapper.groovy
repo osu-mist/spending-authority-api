@@ -14,14 +14,22 @@ class SpendingAuthorityDAOWrapper {
     }
 
     public ResultObject getSpendingLimits(String onid) {
-        new ResultObject(
-                data: getResourceObject(onid)
-        )
+        ResourceObject resourceObject = getResourceObject(onid)
+
+        if (!resourceObject) {
+            return null
+        } else {
+            return new ResultObject(data: getResourceObject(onid))
+        }
     }
 
     private ResourceObject getResourceObject(String onid) {
         String upperCaseOnid = onid.toUpperCase()
         List<SpendingLimit> spendingLimits = spendingAuthorityDAO.getQueues(upperCaseOnid)
+
+        if (!spendingLimits) {
+            return null
+        }
 
         List<LimitsForIndexes> limitsForIndexes = []
 
@@ -33,6 +41,7 @@ class SpendingAuthorityDAOWrapper {
 
         new ResourceObject(
                 id: upperCaseOnid,
+                type: "spendingauthority",
                 attributes: new Attributes(
                         limits: limitsForIndexes
                 )
