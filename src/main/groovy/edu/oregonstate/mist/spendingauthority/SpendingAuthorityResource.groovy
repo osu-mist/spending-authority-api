@@ -2,6 +2,7 @@ package edu.oregonstate.mist.spendingauthority
 
 import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.api.Resource
+import edu.oregonstate.mist.spendingauthority.db.SpendingAuthorityDAOWrapper
 import groovy.transform.TypeChecked
 
 import javax.annotation.security.PermitAll
@@ -17,15 +18,15 @@ import javax.ws.rs.core.Response
 @PermitAll
 @TypeChecked
 class SpendingAuthorityResource extends Resource {
-    private final SpendingAuthorityDAO spendingAuthorityDAO
+    private final SpendingAuthorityDAOWrapper spendingAuthorityDAOWrapper
 
-    SpendingAuthorityResource(SpendingAuthorityDAO spendingAuthorityDAO) {
-        this.spendingAuthorityDAO = spendingAuthorityDAO
+    SpendingAuthorityResource(SpendingAuthorityDAOWrapper spendingAuthorityDAOWrapper) {
+        this.spendingAuthorityDAOWrapper = spendingAuthorityDAOWrapper
     }
 
     @Timed
     @GET
     Response getSpendingAuthority(@QueryParam('onid') String onid) {
-        ok(spendingAuthorityDAO.getIndexes(onid)).build()
+        ok(spendingAuthorityDAOWrapper.getSpendingLimits(onid)).build()
     }
 }

@@ -2,6 +2,7 @@ package edu.oregonstate.mist.spendingauthority
 
 import com.codahale.metrics.health.HealthCheck
 import com.codahale.metrics.health.HealthCheck.Result
+import edu.oregonstate.mist.spendingauthority.db.SpendingAuthorityDAO
 
 class SpendingAuthorityHealthCheck extends HealthCheck {
     private SpendingAuthorityDAO spendingAuthorityDAO

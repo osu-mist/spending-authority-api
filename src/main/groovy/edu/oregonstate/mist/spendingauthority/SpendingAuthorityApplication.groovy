@@ -1,6 +1,8 @@
 package edu.oregonstate.mist.spendingauthority
 
 import edu.oregonstate.mist.api.Application
+import edu.oregonstate.mist.spendingauthority.db.SpendingAuthorityDAO
+import edu.oregonstate.mist.spendingauthority.db.SpendingAuthorityDAOWrapper
 import io.dropwizard.jdbi.DBIFactory
 import io.dropwizard.setup.Environment
 import org.skife.jdbi.v2.DBI
@@ -22,7 +24,10 @@ class SpendingAuthorityApplication extends Application<SpendingAuthorityConfigur
         DBIFactory factory = new DBIFactory()
         DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "jdbi")
         SpendingAuthorityDAO spendingAuthorityDAO = jdbi.onDemand(SpendingAuthorityDAO.class)
-        environment.jersey().register(new SpendingAuthorityResource(spendingAuthorityDAO))
+        SpendingAuthorityDAOWrapper spendingAuthorityDAOWrapper = new SpendingAuthorityDAOWrapper(
+                spendingAuthorityDAO
+        )
+        environment.jersey().register(new SpendingAuthorityResource(spendingAuthorityDAOWrapper))
 
         SpendingAuthorityHealthCheck healthCheck = new SpendingAuthorityHealthCheck(
                 spendingAuthorityDAO)
