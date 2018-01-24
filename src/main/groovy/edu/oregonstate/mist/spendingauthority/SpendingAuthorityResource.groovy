@@ -28,6 +28,10 @@ class SpendingAuthorityResource extends Resource {
     @Timed
     @GET
     Response getSpendingAuthority(@QueryParam('onid') String onid) {
+        if (!onid) {
+            return badRequest("onid query parameter is required").build()
+        }
+
         ResultObject resultObject = spendingAuthorityDAOWrapper.getSpendingLimits(onid)
 
         if (!resultObject) {
