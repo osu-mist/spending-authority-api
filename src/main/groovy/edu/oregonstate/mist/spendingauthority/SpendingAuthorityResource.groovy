@@ -32,12 +32,6 @@ class SpendingAuthorityResource extends Resource {
             return badRequest("onid query parameter is required").build()
         }
 
-        ResultObject resultObject = spendingAuthorityDAOWrapper.getSpendingLimits(onid)
-
-        if (!resultObject) {
-            return notFound().build()
-        }
-
         ok(spendingAuthorityDAOWrapper.getSpendingLimits(onid)).build()
     }
 }
