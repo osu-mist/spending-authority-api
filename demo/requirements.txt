@@ -1,0 +1,11 @@
+click==6.7
+Flask==0.12.2
+get==0.0.38
+itsdangerous==0.24
+Jinja2==2.10
+MarkupSafe==1.0
+post==0.0.26
+public==0.0.65
+query-string==0.0.28
+request==0.0.26
+Werkzeug==0.14.1
