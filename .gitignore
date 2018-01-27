@@ -28,5 +28,6 @@ build.properties
 *.keystore
 *.truststore
 
-# virtualenv
+# flask demo app
 venv/
+configuration.json
