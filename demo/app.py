@@ -3,7 +3,6 @@ import requests
 
 from config import Config
 from flask import render_template, Flask
-from flask.ext.bootstrap import Bootstrap
 from forms import OnidForm
 
 
@@ -24,21 +23,22 @@ def get_access():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    onid = None
+    onid, res_data = None, None
     onid_form = OnidForm()
 
     if onid_form.validate_on_submit():
         onid = onid_form.onid.data
 
-    header = get_access()
-    payload = {'onid': onid}
-    res = json.loads(requests.get(
-        app.config['API_URL'],
-        headers=header,
-        params=payload).text
-    )
+        header = get_access()
+        payload = {'onid': onid}
+        res = json.loads(requests.get(
+            app.config['API_URL'],
+            headers=header,
+            params=payload
+        ).text)
+        res_data = res['data']
 
-    return render_template('index.html', form=onid_form, onid=onid, res=res)
+    return render_template('index.html', form=onid_form, onid=onid, data=res_data)
 
 
 if __name__ == '__main__':
