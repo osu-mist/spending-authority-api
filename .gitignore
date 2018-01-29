@@ -30,4 +30,5 @@ build.properties
 
 # flask demo app
 venv/
-configuration.json
+config.py
+__pycache__/
