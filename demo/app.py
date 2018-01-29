@@ -3,6 +3,7 @@ import requests
 
 from config import Config
 from flask import render_template, Flask
+from flask.ext.bootstrap import Bootstrap
 from forms import OnidForm
 
 
