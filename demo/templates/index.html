@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <form method="post">
+            {{ form.csrf_token }}
+            {{ form.onid.label }} {{ form.onid() }}
+            {{ form.submit() }}
+        </form>
+
+        {% if onid %}
+        <h1>{{ onid }}</h1>
+        <p>{{ res }}</p>
+        {% endif %}
+    </body>
+</html>

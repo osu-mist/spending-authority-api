@@ -1,34 +1,43 @@
 import json
 import requests
 
-from flask import Flask
+from config import Config
+from flask import render_template, Flask
+from forms import OnidForm
+
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
 
-def get_token():
-    config = json.load(open('configuration.json'))
-    api_url = config['hostname'] + config['version'] + config['api']
-    token_url = config['token_url']
-    client_id = config['client_id']
-    client_secret = config['client_secret']
-
-    res = requests.post(token_url, data={
-        'client_id': client_id,
-        'client_secret': client_secret,
+def get_access():
+    res = requests.post(app.config['TOKEN_URL'], data={
+        'client_id': app.config['CLIENT_ID'],
+        'client_secret': app.config['CLIENT_SECRET'],
         'grant_type': 'client_credentials'})
 
-    print(res)
+    header = {'Authorization': 'Bearer {}'.format(res.json()['access_token'])}
 
-    return api_url, res.json()['access_token']
+    return header
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    api_url, token = get_token()
-    print(api_url)
-    print(token)
-    return 'Hello World'
+    onid = None
+    onid_form = OnidForm()
+
+    if onid_form.validate_on_submit():
+        onid = onid_form.onid.data
+
+    header = get_access()
+    payload = {'onid': onid}
+    res = json.loads(requests.get(
+        app.config['API_URL'],
+        headers=header,
+        params=payload).text
+    )
+
+    return render_template('index.html', form=onid_form, onid=onid, res=res)
 
 
 if __name__ == '__main__':
