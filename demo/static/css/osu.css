@@ -1,156 +1,158 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
-	html {
-	  color: #fff;
-	}
+html {
+	color: #fff;
+}
 
-	body {
-	  font-size: 16px;
-	  -webkit-font-smoothing: antialiased !important;
-	  background: #fff;
-	  color: #373737;
-	}
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	letter-spacing: 1px;
+	-webkit-font-smoothing: antialiased !important;
+	background: #fff;
+	color: #373737;
+}
 
-	a {
-	  color: #c34500;
-	  text-decoration: none;
-	}
+a {
+	color: #c34500;
+	text-decoration: none;
+}
 
-	a:hover, a:focus {
-	  text-decoration: none;
-	  color: #9e3800;
-	}
+a:hover, a:focus {
+	text-decoration: none;
+	color: #9e3800;
+}
 
-	p {
-	  margin-bottom: 1em;
-	}
+p {
+	margin-bottom: 1em;
+}
 
-	h1 {
-	  color: #c34500;
-	  line-height: 1.2;
-	}
+h1 {
+	color: #c34500;
+	line-height: 1.2;
+}
 
-	h2, h3, h4 {
-	  line-height: 1.2;
-	}
+h2, h3, h4 {
+	line-height: 1.2;
+}
 
-	header {
-	  background: #dc4405;
-	  position: relative;
-	  height: 100px;
-	  padding: 0.5em;
-	}
+header {
+	background: #dc4405;
+	position: relative;
+	height: 100px;
+	padding: 0.5em;
+}
 
+header #site-title {
+	color: #c34500;
+	background: #fff;
+	display: block;
+	text-align: center;
+	padding: 20px;
+}
+
+header #site-title h1 {
+	margin: 8px 0 0 0.8em;
+	font-size: 28px;
+	color: #fff;
+}
+
+header button {
+	height: 78px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	border: none;
+	background: none;
+	padding: 0px 20px;
+	font-size: 12px;
+}
+
+header button:hover, header button:focus {
+	color: #c34500;
+}
+
+header button i {
+	font-size: 30px!important;
+}
+
+header .dropdown-menu {
+	right: 0px;
+	left: inherit;
+	top: 100%;
+	border: none;
+	background: rgba(255,255,255,.9);
+	margin: 0px;
+	border-radius: 0px;
+}
+
+header .dropdown-menu a:hover {
+	color: #fff;
+	background: #c34500;
+}
+
+.cover img {
+	width: 100%;
+	height: auto;
+}
+
+.content {
+	background: #fff;
+	padding: 50px 10px;
+}
+
+footer {
+	background: url('http://oregonstate.edu/images/repeatable-treeline.png?v=1') repeat-x bottom left #373737;
+	color: #fff;
+	padding: 50px;
+	border-top: 5px solid #c34500;
+	min-height: 270px;
+	font-size: 14px;
+	line-height: 18px;
+}
+
+footer h2 {
+	color: inherit;
+	font-size: 120%;
+	margin-top: 0;
+	line-height: inherit;
+}
+
+footer a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+footer a:hover, footer a:active, footer a:focus {
+	background-color: #666;
+	text-decoration: none;
+	border-radius: 3px;
+}
+
+@media (min-width:768px) {
 	header #site-title {
-	  color: #c34500;
-	  background: #fff;
-	  display: block;
-	  text-align: center;
-	  padding: 20px;
+	position: absolute;
+	top: 25px;
+	left: 245px;
+	color: #c34500;
+	background: none;
+	padding: 0px;
 	}
+}
 
-	header #site-title h1 {
-	  margin: 8px 0 0 0.8em;
-	  font-size: 28px;
-	  color: #fff;
-	  letter-spacing: 1px;
-	}
+.btn-primary {
+	color: #F5F2ED;
+	border-color: #a33a00; /* hsl(21.24, 100%, 32%); */
+	background-color: #C34500;
+}
 
-	header button {
-	  height: 78px;
-	  position: absolute;
-	  top: 0px;
-	  right: 0px;
-	  border: none;
-	  background: none;
-	  padding: 0px 20px;
-	  font-size: 12px;
-	}
+.btn-primary:focus, .btn-primary:hover, .btn-primary:active {
+	color: #F5F2ED;
+	border-color: #8f3300; /* hsl(21.24, 100%, 28%); */
+	background-color: #a33a00; /* hsl(21.24, 100%, 32%); */
+}
 
-	header button:hover, header button:focus {
-	  color: #c34500;
-	}
-
-	header button i {
-	  font-size: 30px!important;
-	}
-
-	header .dropdown-menu {
-	  right: 0px;
-	  left: inherit;
-	  top: 100%;
-	  border: none;
-	  background: rgba(255,255,255,.9);
-	  margin: 0px;
-	  border-radius: 0px;
-	}
-
-	header .dropdown-menu a:hover {
-	  color: #fff;
-	  background: #c34500;
-	}
-
-	.cover img {
-	  width: 100%;
-	  height: auto;
-	}
-
-	.content {
-	  background: #fff;
-	  padding: 50px 10px;
-	}
-
-	footer {
-	  background: url('http://oregonstate.edu/images/repeatable-treeline.png?v=1') repeat-x bottom left #373737;
-	  color: #fff;
-	  padding: 50px;
-	  border-top: 5px solid #c34500;
-	  min-height: 270px;
-	  font-size: 14px;
-	  line-height: 18px;
-	}
-
-	footer h2 {
-	  color: inherit;
-	  font-size: 120%;
-	  margin-top: 0;
-	  line-height: inherit;
-	}
-
-	footer a {
-	  color: inherit;
-	  text-decoration: underline;
-	}
-
-	footer a:hover, footer a:active, footer a:focus {
-	  background-color: #666;
-	  text-decoration: none;
-	  border-radius: 3px;
-	}
-
-	@media (min-width:768px) {
-	  header #site-title {
-	    position: absolute;
-	    top: 25px;
-	    left: 245px;
-	    color: #c34500;
-	    background: none;
-	    padding: 0px;
-	  }
-	}
-
-	.btn-primary {
-	  color: #F5F2ED;
-	  border-color: #a33a00; /* hsl(21.24, 100%, 32%); */
-	  background-color: #C34500;
-	}
-
-	.btn-primary:focus, .btn-primary:hover, .btn-primary:active {
-	  color: #F5F2ED;
-	  border-color: #8f3300; /* hsl(21.24, 100%, 28%); */
-	  background-color: #a33a00; /* hsl(21.24, 100%, 32%); */
-	}
-
-	.table .odd {
-	  background-color: #f9f9f9;
-	}
+.table .odd {
+	background-color: #f9f9f9;
+}
