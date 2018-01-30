@@ -18,4 +18,7 @@ public interface SpendingAuthorityDAO extends Closeable {
     @SqlQuery(AbstractSpendingAuthorityDAO.indexQuery)
     List<String> getIndexes(@Bind("queueID") String queueID)
 
+    @SqlQuery(AbstractSpendingAuthorityDAO.requestorQuery)
+    List<String> getRequestorIndexes(@Bind("onid") String onid)
+
 }
