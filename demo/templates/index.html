@@ -10,8 +10,12 @@
         <title>Spending Authority API Demo</title>
     </head>
     <body>
+        <header>
+            <a href="http://oregonstate.edu"><img id="logo" src="http://oregonstate.edu/themes/osu/drupal8-osuhomepage/logo.svg" alt="Oregon State University" width="215" height="78"/></a>
+            <a href="#" id="site-title"><h1>Spending Authority API Demo</h1></a>
+        </header>
         <div class="container">
-            <form method="post" class="form-group row mt-4 justify-content-md-center">
+            <form method="post" class="form-group row my-5 justify-content-md-center">
                 {{ form.csrf_token }}
                 <div class="input-group col-sm-9">
                     <span class="input-group-prepend input-group-text">ONID #</span>
