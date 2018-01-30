@@ -7,7 +7,7 @@ $(document).ready(function() {
 
         $('#limits-table tbody tr').each(function() {
             $(this).show();
-            if ($(this.children[1].children[0]).children(':visible').length == 0) {
+            if ($(this).find('td ul').children(':visible').length == 0) {
                 $(this).hide();
             }
         });
