@@ -29,33 +29,49 @@ class SpendingAuthorityDAOWrapper {
         // Indexes for requestors. Requestors have one spending limit.
         List<String> requestorIndexes = spendingAuthorityDAO.getRequestorIndexes(upperCaseOnid)
 
-        List<LimitsForIndexes> limitsForIndexes = []
+        if (!spendingLimits && !requestorIndexes) {
+            return null
+        }
+
+        def limitsMap = [:]
 
         if (spendingLimits) {
             spendingLimits.each {
-                limitsForIndexes.add(new LimitsForIndexes(
-                        spendingLimit: it.queueLimit,
-                        indexes: spendingAuthorityDAO.getIndexes(it.queueID)))
+                mapSpendingLimits(limitsMap,
+                        it.queueLimit,
+                        spendingAuthorityDAO.getIndexes(it.queueID))
             }
         }
 
         if (requestorIndexes) {
-            limitsForIndexes.add(new LimitsForIndexes(
-                    spendingLimit: requestorLimit,
-                    indexes: requestorIndexes))
+            mapSpendingLimits(limitsMap, requestorLimit, requestorIndexes)
         }
 
-        if (limitsForIndexes) {
-            return new ResourceObject(
-                    id: upperCaseOnid,
-                    type: "spendingauthority",
-                    attributes: new Attributes(
-                            limits: limitsForIndexes
-                    )
-            )
-        } else {
-            return null
+        // Reverse the map so we can key on the limit to get a list of indexes
+        def spendingLimitsGroupedByLimit = limitsMap.groupEntriesBy {
+            it.value
+        }.each {
+            it.value = it.value.collect {
+                it.key
+            }
         }
+
+        new ResourceObject(
+                id: upperCaseOnid,
+                type: "spendingauthority",
+                attributes: new Attributes(
+                        limits: spendingLimitsGroupedByLimit.collect {
+                            new LimitsForIndexes(spendingLimit: it.key, indexes: it.value)
+                        }
+                )
+        )
     }
 
+    private void mapSpendingLimits(def limitsMap, BigDecimal limit, List<String> indexes) {
+        indexes.each {
+            if (!limitsMap[it] || limitsMap[it] < limit) {
+                limitsMap[it] = limit
+            }
+        }
+    }
 }
