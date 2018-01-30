@@ -23,7 +23,7 @@ def get_access():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    onid, res_data = None, None
+    onid, response = None, {}
     onid_form = OnidForm()
 
     if onid_form.validate_on_submit():
@@ -31,14 +31,11 @@ def index():
 
         header = get_access()
         payload = {'onid': onid}
-        res = json.loads(requests.get(
-            app.config['API_URL'],
-            headers=header,
-            params=payload
-        ).text)
-        res_data = res['data']
+        res = requests.get(app.config['API_URL'], headers=header, params=payload)
+        response['code'] = res.status_code
+        response['data'] = json.loads(res.text)['data']
 
-    return render_template('index.html', form=onid_form, onid=onid, data=res_data)
+    return render_template('index.html', form=onid_form, onid=onid, res=response)
 
 
 if __name__ == '__main__':

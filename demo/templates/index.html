@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <title>Spending Authority API Demo</title>
     </head>
@@ -18,15 +19,15 @@
 
             <div class="row mt-5">
                 {% if onid %}
-                <h1 class="text-uppercase col-md-2">{{ onid }}</h1>
-                <div class="input-group col-md-10">
+                <h1 class="text-uppercase col-md-3">{{ onid }}</h1>
+                <div class="input-group col-md-9">
                     <input class="form-control" type=text id="table-filter" placeholder="Search Index">
                 </div>
                 {% endif %}
             </div>
 
-            <div class="row mt-2">
-                {% if data %}
+            <div class="row mt-4">
+                {% if res['data'] %}
                 <table class="table table-hover" id="limits-table" >
                     <thead class="thead-light">
                         <tr>
@@ -35,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for limit in data['attributes']['limits'] %}
+                        {% for limit in res['data']['attributes']['limits'] %}
                         <tr>
                             <th class="w-25">$ {{ limit['spendingLimit'] }}</th>
                             <td class="w-75">
@@ -49,7 +50,7 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                {% else %}
+                {% elif not res['data'] and res['code'] %}
                 <div class="alert alert-danger w-100" role="alert">
                     Result Not Found
                 </div>
