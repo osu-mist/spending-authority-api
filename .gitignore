@@ -27,3 +27,8 @@ build.properties
 *.cer
 *.keystore
 *.truststore
+
+# flask demo app
+venv/
+config.py
+__pycache__/
