@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en_US">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="https://developer.oregonstate.edu/sites/all/themes/doug-fir/favicon.ico" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/osu.css') }}" />
+        <title>Spending Authority API Demo</title>
+    </head>
+    <body>
+        <header>
+            <a href="http://oregonstate.edu"><img id="logo" src="http://oregonstate.edu/themes/osu/drupal8-osuhomepage/logo.svg" alt="Oregon State University" width="215" height="78"/></a>
+            <a id="site-title"><h1>Spending Authority API Demo</h1></a>
+        </header>
+        <div class="container">
+            <form method="post" class="form-group row my-5 justify-content-md-center">
+                {{ form.csrf_token }}
+                <div class="input-group col-sm-9">
+                    <span class="input-group-prepend input-group-text">ONID #</span>
+                    {{ form.onid(class_='form-control') }}
+                </div>
+                <button type="submit" class="btn btn-primary col-sm-1">Submit</button>
+            </form>
+
+            <div class="row mt-5">
+                {% if onid %}
+                <h1 class="text-uppercase col-md-3 font-weight-bold">{{ onid }}</h1>
+                <div class="input-group col-md-9">
+                    <input class="form-control" type=text id="table-filter" placeholder="Search Index">
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="row mt-4">
+                {% if res['data'] %}
+                <table class="table table-hover" id="limits-table" >
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Limit</th>
+                            <th>Index(es)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for limit in res['data']['attributes']['limits'] %}
+                        <tr>
+                            <th class="w-25">$ {{ limit['spendingLimit'] }}</th>
+                            <td class="w-75">
+                                <ul class="list-group">
+                                    {% for index in limit['indexes'] %}
+                                    <li class="list-group-item">{{ index }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% elif not res['data'] and res['code'] %}
+                <div class="alert alert-danger w-100" role="alert">
+                    Result Not Found
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/filter.js') }}"></script>
+</html>
