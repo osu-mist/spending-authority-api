@@ -30,3 +30,8 @@ build.properties
 
 # Contrib files
 src/main/groovy/edu/oregonstate/mist/contrib/
+
+# flask demo app
+venv/
+config.py
+__pycache__/
