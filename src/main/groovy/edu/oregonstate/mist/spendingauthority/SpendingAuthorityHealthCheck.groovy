@@ -16,7 +16,7 @@ class SpendingAuthorityHealthCheck extends HealthCheck {
         try {
             String status = spendingAuthorityDAO.checkHealth()
 
-            if (status != null) {
+            if (status) {
                 return Result.healthy()
             }
             Result.unhealthy("status: ${status}")

@@ -36,7 +36,7 @@ class SpendingAuthorityDAOWrapper {
         def limitsMap = [:]
 
         if (spendingLimits) {
-            spendingLimits.each {
+            spendingLimits?.each {
                 mapSpendingLimits(limitsMap,
                         it.queueLimit,
                         spendingAuthorityDAO.getIndexes(it.queueID))
@@ -48,12 +48,8 @@ class SpendingAuthorityDAOWrapper {
         }
 
         // Reverse the map so we can key on the limit to get a list of indexes
-        def spendingLimitsGroupedByLimit = limitsMap.groupEntriesBy {
-            it.value
-        }.each {
-            it.value = it.value.collect {
-                it.key
-            }
+        def spendingLimitsGroupedByLimit = limitsMap.groupEntriesBy { it.value }.each {
+            it.value = it.value.collect { it.key }
         }
 
         new ResourceObject(
