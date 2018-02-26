@@ -9,7 +9,7 @@ from flask import render_template, Flask
 from forms import OnidForm
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config.from_object(Config)
 
 request = flask.request
@@ -48,7 +48,7 @@ def index():
         return flask.redirect(cas_url+"/login?service="+urllib.parse.quote(service_url))
 
     if session['user'] not in authorized_users:
-        return render_template('unauthorized.html')
+        return app.send_static_file('unauthorized.html')
 
     onid, response = None, {}
     onid_form = OnidForm()
