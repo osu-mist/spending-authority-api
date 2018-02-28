@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://developer.oregonstate.edu/sites/all/themes/doug-fir/favicon.ico" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-        <link rel="stylesheet" href="css/osu.css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/osu.css') }}" />
         <title>Spending Authority API Demo</title>
     </head>
     <body>
@@ -14,6 +14,7 @@
             <a href="http://oregonstate.edu"><img id="logo" src="http://oregonstate.edu/themes/osu/drupal8-osuhomepage/logo.svg" alt="Oregon State University" width="215" height="78"/></a>
             <a id="site-title"><h1>Spending Authority API Demo</h1></a>
         </header>
+        <a href="{{ logout_url }}">Log Out</a>
         <div class="container">
              <h1 class="text-uppercase col-md-3 font-weight-bold">Unauthorized</h1>
         </div>
