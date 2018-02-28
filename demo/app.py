@@ -44,6 +44,10 @@ def index():
 
         # save user
         session['user'] = user
+
+        # reload page to strip ticket parameter from cas
+        return flask.redirect(request.path)
+
     elif u'user' not in session:
         # redirect to cas
         return flask.redirect(cas_url+"/login?service="+urllib.parse.quote(service_url))
