@@ -9,7 +9,7 @@ from flask import render_template, Flask
 from forms import OnidForm
 
 
-app = Flask(__name__, static_url_path='')
+app = Flask(__name__)
 app.config.from_object(Config)
 
 request = flask.request
@@ -31,6 +31,7 @@ def index():
     cas_url = app.config['CAS_URL']
     service_url = app.config['SERVICE_URL']
     authorized_users = app.config['AUTHORIZED_USERS']
+    logout_url = service_url+"logout"
 
     if u'ticket' in request.args:
         # got cas; validate ticket
@@ -48,7 +49,7 @@ def index():
         return flask.redirect(cas_url+"/login?service="+urllib.parse.quote(service_url))
 
     if session['user'] not in authorized_users:
-        return app.send_static_file('unauthorized.html')
+        return render_template('unauthorized.html', logout_url=logout_url)
 
     onid, response = None, {}
     onid_form = OnidForm()
@@ -62,7 +63,13 @@ def index():
         response['code'] = res.status_code
         response['data'] = json.loads(res.text)['data']
 
-    return render_template('index.html', form=onid_form, onid=onid, res=response)
+    return render_template('index.html', form=onid_form, onid=onid, res=response, logout_url=logout_url)
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    if 'user' in session:
+        del session['user']
+    return flask.redirect(app.config['CAS_URL'] + "/logout")
 
 class CASError(Exception):
     def __init__(self, msg, code=''):
