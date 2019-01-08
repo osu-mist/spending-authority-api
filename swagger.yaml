@@ -18,17 +18,28 @@ consumes:
 produces:
   - text/plain
 paths:
-  /:
+  /getSpendingAuthorit:
     get:
       summary: Get information
       description: Build and runtime information about the application.
       parameters:
-        - $ref: '#/parameters/pretty'
+        - in: "query"
+          name: onid
+          required: true
+          type: string
       responses:
         200:
-          description: Object containing information
+          description: "request recived"
           schema:
-            $ref: '#/definitions/Info'
+            $ref: '#/definitions/response'
+        400:
+          description: "onid query parameter is required"
+          schema:
+            $ref: '#/definitions/Error'
+        500:
+          description: "internal server error"
+          schema:
+            $ref: '#/definitions/Error'
 
 parameters:
   pretty:
@@ -39,27 +50,56 @@ parameters:
     description: If true, JSON response will be pretty-printed
 
 definitions:
-  Info:
+  response:
+    type: object
     properties:
-      name:
+      links:
+        $ref: "#/definitions/Links"
+      data:
+        $ref: "#/definitions/UserData"
+
+  Links:
+    type: object
+
+  UserData:
+    type: object
+    properties:
+      id:
         type: string
-        description: Name of the API.
-      time:
+        example: "kuok"
+      type:
         type: string
-        description: Build time in ISO 8601 format.
-      unixTime:
-        type: integer
-        description: Build time as milliseconds since the unix epoch.
-      commit:
+        example: "spendingauthority"
+      attributes:
+        $ref: "#/definitions/LimitsArray"
+      links:
         type: string
-        description: Git commit hash of the revision which was built.
-      documentation:
+
+  LimitsArray:
+    type: object
+    properties:
+      limits:
+        type: array
+        items:
+          $ref: "#/definitions/LimitsInfo"
+
+  LimitsInfo:
+    type: object
+    properties:
+      spendingLimit:
         type: string
-        description: Filename of the swagger specification for the API.
+        example: "149999.99"
+        description: "the spending limit"
+      indexes:
+        type: array
+        items:
+          type: string
+          example: "JIS261"
+
   Error:
     properties:
       status:
-        type: integer
+        type: string
         description: HTTP status code.
       developerMessage:
         type: string
@@ -68,7 +108,7 @@ definitions:
         type: string
         description: An error string aimed at end users.
       code:
-        type: integer
+        type: string
         description: Error code.
       details:
         type: string
