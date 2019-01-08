@@ -1,27 +1,35 @@
 swagger: '2.0'
 info:
-  title: Web API Skeleton
-  description: Skeleton for Dropwizard Web APIs
-  version: '0.0'
+  title: spending authority api
+  description: Provides spending authority api endpoint
+  version: v1
   license:
     name: GNU Affero General Public License Version 3
     url: http://www.gnu.org/licenses/agpl-3.0.en.html
-externalDocs:
-  description: GitHub Repository
-  url: https://github.com/osu-mist/web-api-skeleton
-host: localhost
+  contact:
+    name: IS Data Architecture Team
+    url: https://is.oregonstate.edu/data-architecture
+    email: isdataarchitecture@oregonstate.edu
 schemes:
   - http
-basePath: /api/v0
-consumes:
-  - text/plain
+host: api.oregonstate.edu
+basePath: /v1
+externalDocs:
+  description: GitHub Repository
+  url: https://github.com/osu-mist/spending-authority-api
 produces:
-  - text/plain
+  - application/json
+
 paths:
-  /getSpendingAuthorit:
+  /spendingauthority:
+    parameters:
+      - $ref: '#/parameters/authorization'
     get:
-      summary: Get information
-      description: Build and runtime information about the application.
+      summary: Get authorized spending information
+      tags:
+        - spendingauthority
+      operationId: getSpendingAuthority
+      description: returns authority resource information for an onid.
       parameters:
         - in: "query"
           name: onid
@@ -29,25 +37,25 @@ paths:
           type: string
       responses:
         200:
-          description: "request recived"
+          description: Successful response
           schema:
             $ref: '#/definitions/response'
         400:
-          description: "onid query parameter is required"
+          description: Bad request
           schema:
             $ref: '#/definitions/Error'
         500:
-          description: "internal server error"
+          description: Internal server error
           schema:
             $ref: '#/definitions/Error'
 
 parameters:
-  pretty:
-    name: pretty
-    in: query
-    type: boolean
-    required: false
-    description: If true, JSON response will be pretty-printed
+  authorization:
+    name: Authorization
+    in: header
+    type: string
+    required: true
+    description: '"Bearer [token]" where [token] is your OAuth2 access token'
 
 definitions:
   response:
@@ -56,24 +64,32 @@ definitions:
       links:
         $ref: "#/definitions/Links"
       data:
-        $ref: "#/definitions/UserData"
+        $ref: "#/definitions/Data"
 
   Links:
-    type: object
+    $ref: "#/definitions/SelfLink"
 
-  UserData:
+  SelfLink:
+    type: object
+    properties:
+      self:
+        type: string
+        format: url
+        description: Self-link of current resource
+
+  Data:
     type: object
     properties:
       id:
         type: string
-        example: "kuok"
+        example: "john"
       type:
         type: string
-        example: "spendingauthority"
+        enum: [spendingauthority]
       attributes:
         $ref: "#/definitions/LimitsArray"
       links:
-        type: string
+        $ref: "#/definitions/SelfLink"
 
   LimitsArray:
     type: object
@@ -87,8 +103,8 @@ definitions:
     type: object
     properties:
       spendingLimit:
-        type: string
-        example: "149999.99"
+        type: integer
+        example: 149999.99
         description: "the spending limit"
       indexes:
         type: array
@@ -99,7 +115,7 @@ definitions:
   Error:
     properties:
       status:
-        type: string
+        type: integer
         description: HTTP status code.
       developerMessage:
         type: string
@@ -108,7 +124,7 @@ definitions:
         type: string
         description: An error string aimed at end users.
       code:
-        type: string
+        type: integer
         description: Error code.
       details:
         type: string
