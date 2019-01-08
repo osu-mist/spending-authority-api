@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: spending authority api
-  description: Provides spending authority api endpoint
+  description: RESTful API to get spending authority permissions
   version: v1
   license:
     name: GNU Affero General Public License Version 3
@@ -64,7 +64,7 @@ definitions:
       links:
         $ref: "#/definitions/Links"
       data:
-        $ref: "#/definitions/Data"
+        $ref: "#/definitions/SpendingAuthorityResource"
 
   Links:
     $ref: "#/definitions/SelfLink"
@@ -77,15 +77,17 @@ definitions:
         format: url
         description: Self-link of current resource
 
-  Data:
+  SpendingAuthorityResource:
     type: object
     properties:
       id:
         type: string
         example: "john"
+        description: onid username
       type:
         type: string
         enum: [spendingauthority]
+        description: type of authorization
       attributes:
         $ref: "#/definitions/LimitsArray"
       links:
@@ -93,6 +95,7 @@ definitions:
 
   LimitsArray:
     type: object
+    description: account limits
     properties:
       limits:
         type: array
@@ -105,12 +108,13 @@ definitions:
       spendingLimit:
         type: integer
         example: 149999.99
-        description: "the spending limit"
+        description: "unique spending limit"
       indexes:
         type: array
         items:
           type: string
           example: "JIS261"
+          description: lists of unique indexes
 
   Error:
     properties:
