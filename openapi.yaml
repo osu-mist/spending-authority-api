@@ -108,7 +108,7 @@ definitions:
       spendingLimit:
         type: integer
         example: 149999.99
-        description: "unique spending limit"
+        description: "A spending limit should be unique. I.E. there shouldn't be multiple $149,999.99 spending limits in one response"
       indexes:
         type: array
         items:
