@@ -21,63 +21,58 @@ class integration_tests(unittest.TestCase):
     def cleanup(cls):
         cls.session.close()
 
-    # Test case: GET /spendingauthority with onid filter
-    def test_get_onids_with_filter(self, endpoint='/spendingauthority'):
-        testing_authority_onids = ['kuok']#, 'wetherel'] # Valid onids with spending authority
-        testing_non_authority_onids = ['alawammo', 'wilsonia'] # Valid onids with no spending authority
-        testing_bad_request = [''] # Invalid request
-
-        for onid in testing_authority_onids:
+    # Test case: GET /spendingauthority with valid authority onids
+    def test_get_authority_onids(self, endpoint='/spendingauthority'):
+        for onid in self.test_cases['valid_authority_onids']:
             params = {'onid': onid}
             response = utils.make_request(self, endpoint, 200, params=params)
             spending_schema = utils.get_resource_schema(
                 self, 'SpendingAuthorityResource'
             )
-
             utils.check_schema(self, response, spending_schema)
-
             response_data = response.json()['data']
             actual_onid = response_data['id']
             self.assertEqual(actual_onid.lower(), onid.lower())
 
-        # for onid in testing_non_authority_onids:
-        #     params = {'onid': onid}
-        #     response = utils.make_request(self, endpoint, 200, params=params)
-        #     spending_schema = []
-        #     self.assertEqual(response.json()['data'], spending_schema)
+    # Test case: GET /spendingauthority with invalid authority onids
+    def test_get_non_authority_onids(self, endpoint='/spendingauthority'):
+        for onid in self.test_cases['invalid_authority_onids']:
+            params = {'onid': onid}
+            response = utils.make_request(self, endpoint, 200, params=params)
+            spending_schema = []
+            self.assertEqual(response.json()['data'], spending_schema)
 
-
-        # Testing Error response
-        for onid in testing_bad_request:
+    # Test case: GET /spendingauthority with bad request
+    def test_error_response(self, endpoint='/spendingauthority'):
+        for onid in self.test_cases['bad_request']:
             params = {'onid': onid}
             response = utils.make_request(self, endpoint, 400, params=params)
             error_schema = utils.get_resource_schema(self, 'Error')
             utils.check_schema(self, response, error_schema)
 
+    # Test case: GET /spendingauthority spending limits
+    def test_spending_limits(self, endpoint='/spendingauthority'):
         # Checking that the lists of spending limits and indexes are unique
         # Checking valid onids with spending authority only
-        for onid in testing_authority_onids:
+        for onid in self.test_cases['valid_authority_onids']:
             params = {'onid': onid}
             response = utils.make_request(self, endpoint, 200, params=params)
-
             response_data = response.json()['data']
             attributes = response_data['attributes']
             limits = attributes['limits']
-            indexes = []
             spendingLimit = []
-
+            index_array = []
             # Checking that each spending limit has at least one index
             for i in limits:
-                indexes.append(i['indexes'])
+                index_array = i['indexes']
                 spendingLimit.append(i['spendingLimit'])
                 self.assertGreater(len(i['indexes']), 0)
-
-            # Creating a dict indexes_list from indexes, and compare it with the original array of indexes
-            for i in indexes:
-                indexes_list = list(dict.fromkeys(i))
-                self.assertEqual(i, indexes_list)
-
-            # Creating a dict spendingLimit_list from spendingLimit, and compare it with the original array of spendingLimit
+            # Creating a dict indexes_list from indexes,
+            # and compare it with the original array of indexes
+            indexes_list = list(dict.fromkeys(index_array))
+            self.assertEqual(index_array, indexes_list)
+            # Creating a dict spendingLimit_list from spendingLimit,
+            # and compare it with the original array of spendingLimit
             spendingLimit_list = list(dict.fromkeys(spendingLimit))
             self.assertEqual(spendingLimit, spendingLimit_list)
 
