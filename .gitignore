@@ -19,13 +19,8 @@ out/
 # Mac OS X
 .DS_Store
 
-<<<<<<< HEAD
 # configuration files
 *configuration.json
-=======
-# Integration tests configuration
-spending-authority-api/src/test/integration/configuration.json
->>>>>>> bcb55706f5f9cc99332179185d35e7eaa643791a
 
 # Build Properties
 build.properties
