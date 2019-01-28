@@ -63,10 +63,10 @@ class integration_tests(unittest.TestCase):
             spendingLimit = []
             index_array = []
             # Checking that each spending limit has at least one index
-            for i in limits:
-                index_array = i['indexes']
-                spendingLimit.append(i['spendingLimit'])
-                self.assertGreater(len(i['indexes']), 0)
+            for limit in limits:
+                index_array = limit['indexes']
+                spendingLimit.append(limit['spendingLimit'])
+                self.assertGreater(len(limit['indexes']), 0)
             # Creating a dict indexes_list from indexes,
             # and compare it with the original array of indexes
             indexes_list = list(dict.fromkeys(index_array))
