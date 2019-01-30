@@ -25,6 +25,15 @@ This directory contains template files that run integration tests against the AP
     },
     ...
     ```
+3. Replace the fields for test_cases with existing usernames:
+
+ ```json
+    "test_cases": {
+    "valid_authority_onids": [ "Users with authority"],
+    "invalid_authority_onids": ["Users with no authority"],
+    "bad_request": [""]
+  }
+    ```
 ### Test on production environment
 
 1. Register an application via [OSU Developer Portal](https://developer.oregonstate.edu/)
