@@ -19,8 +19,11 @@ out/
 # Mac OS X
 .DS_Store
 
-# configuration files
+# Configuration files
 *configuration.json
+
+# Integration test
+env/
 
 # Build Properties
 build.properties

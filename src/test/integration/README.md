@@ -29,7 +29,7 @@ This directory contains template files that run integration tests against the AP
 
     ```json
     "test_cases": {
-    "valid_authority_onids": [ "Users with authority"],
+    "valid_authority_onids": ["Users with authority"],
     "invalid_authority_onids": ["Users with no authority"],
     "bad_request": [""]
     }

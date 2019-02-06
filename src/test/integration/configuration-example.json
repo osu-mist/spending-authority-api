@@ -17,7 +17,6 @@
   },
   "test_cases": {
     "valid_authority_onids": ["replace_with_valid_onid", "replace_with_valid_onid"],
-    "invalid_authority_onids": ["replace_with_no_authority_onid", "replace_with_no_authority_onid"],
-    "bad_request": [""]
+    "invalid_authority_onids": ["replace_with_no_authority_onid", "replace_with_no_authority_onid"]
   }
 }
