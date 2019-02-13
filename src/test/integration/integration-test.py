@@ -33,10 +33,9 @@ class integration_tests(unittest.TestCase):
             utils.check_schema(self, response, spending_schema)
             response_data = response.json()['data']
             actual_onid = response_data['id']
-            logging.debug(f'Request to made to {onid}')
-            logging.debug(f'Response for {actual_onid}')
+            logging.debug(f'Requested onid: {onid}')
+            logging.debug(f'Received onid: {actual_onid}')
             self.assertEqual(actual_onid.lower(), onid.lower())
-
             self.checking_spending_limits(response_data['attributes'])
 
     # Test case: GET /spendingauthority spending limits
@@ -50,27 +49,21 @@ class integration_tests(unittest.TestCase):
         }
 
         for key, non_empty_list in non_empty_list_dict.items():
-            logging.debug(f'{key}: {len(non_empty_list)}')
+            logging.debug(f'{key} size: {len(non_empty_list)}')
             self.assertTrue(non_empty_list)
 
         spending_limit = []
-        index_array = []
 
-        for limit in non_empty_list_dict['limits']:
-            try:
-                for index in limit['indexes2']:
-                    index_array.append(index)
+        try:
+            for limit in non_empty_list_dict['limits']:
+                index_array = [index for index in limit['indexes']]
                 # Checking that each spending limit has at least one index
-                logging.debug(f'spending limit has: {limit["indexes"]}')
+                logging.debug(f'spending limit size: {len(limit["indexes"])}')
                 self.assertTrue(limit['indexes'])
-                try:
-                    spending_limit.append(limit['spendingLimit'])
-                except KeyError as error:
-                    logging.debug('spendingLimit does not exist')
-                    self.fail(error)
-            except KeyError as error:
-                logging.debug('indexes does not exist')
-                self.fail(error)
+                spending_limit.append(limit['spendingLimit'])
+        except KeyError as error:
+            logging.debug(f'{error} don\'t exist')
+            self.fail(error)
 
         # Comparing the size of the list with the size of the set of that
         # list doublications will be removed in a the set
@@ -79,9 +72,7 @@ class integration_tests(unittest.TestCase):
             'spending_limit': spending_limit
         }
 
-        for key, equal_list in equal_list_dict.items():
-            logging.debug(f'{key} size: {len(equal_list)}')
-            logging.debug(f'{key} set size: {len(set(equal_list))}')
+        for equal_list in equal_list_dict.values():
             self.assertEqual(len(equal_list), len(set(equal_list)))
 
     # Test case: GET /spendingauthority with invalid authority onids
@@ -96,8 +87,12 @@ class integration_tests(unittest.TestCase):
     def test_bad_request_response(self, endpoint='/spendingauthority'):
         bad_params = [{'onid': ''}, {}]
         for bad_param in bad_params:
-            params = bad_param
-            response = utils.make_request(self, endpoint, 400, params=params)
+            response = utils.make_request(
+                self,
+                endpoint,
+                400,
+                params=bad_param
+                )
             error_schema = utils.get_resource_schema(self, 'Error')
             utils.check_schema(self, response, error_schema)
 
