@@ -62,7 +62,6 @@ class integration_tests(unittest.TestCase):
                 self.assertTrue(limit['indexes'])
                 spending_limit.append(limit['spendingLimit'])
         except KeyError as error:
-            print('ERROR: ', error)
             logging.debug(f'{error} does\'t exist')
             self.fail(error)
 
