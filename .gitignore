@@ -19,6 +19,13 @@ out/
 # Mac OS X
 .DS_Store
 
+# Configuration files
+*configuration.json
+
+# Environments
+env/
+__pycache__/
+
 # Build Properties
 build.properties
 
@@ -34,4 +41,3 @@ src/main/groovy/edu/oregonstate/mist/contrib/
 # flask demo app
 venv/
 config.py
-__pycache__/
