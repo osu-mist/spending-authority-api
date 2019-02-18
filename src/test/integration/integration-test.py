@@ -62,11 +62,12 @@ class integration_tests(unittest.TestCase):
                 self.assertTrue(limit['indexes'])
                 spending_limit.append(limit['spendingLimit'])
         except KeyError as error:
+            print('ERROR: ', error)
             logging.debug(f'{error} does\'t exist')
             self.fail(error)
 
         # Comparing the size of the list with the size of the set of that
-        # list doublications will be removed in a the set
+        # list duplications will be removed in a the set
         equal_lists = [
             index_array,
             spending_limit
