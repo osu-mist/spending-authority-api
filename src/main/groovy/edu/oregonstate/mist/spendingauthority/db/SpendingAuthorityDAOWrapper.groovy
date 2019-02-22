@@ -16,7 +16,7 @@ class SpendingAuthorityDAOWrapper {
     }
 
     public ResultObject getSpendingLimits(String onid) {
-        new ResultObject(data: getResourceObject(onid))
+        new ResultObject(data: getResourceObject(onid) ?: [])
     }
 
     private ResourceObject getResourceObject(String onid) {
