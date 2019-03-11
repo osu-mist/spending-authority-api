@@ -25,7 +25,6 @@ class integration_tests(unittest.TestCase):
         for onid in self.test_cases['valid_authority_onids']:
             params = {'onid': onid}
             response = utils.make_request(self, endpoint, 200, params=params)
-            response_data = response.json()['data']
             # Test case: GET /spendingauthority with valid authority onids
             spending_schema = utils.get_resource_schema(
                 self, 'SpendingAuthorityResource'
